@@ -267,7 +267,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 					MessageBox(
 						hWnd,
 						TEXT("完了。"),
-						TEXT("四川省"),
+						TEXT("二角取り"),
 						0);
 				}
 				else if(!GetHint(&autoiti1,&autoiti2))
@@ -282,7 +282,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 					MessageBox(
 						hWnd,
 						TEXT("手詰まりです。"),
-						TEXT("四川省"),
+						TEXT("二角取り"),
 						0);
 				}
 			}
@@ -333,7 +333,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 					MessageBox(
 						hWnd,
 						TEXT("手詰まりです。"),
-						TEXT("四川省"),
+						TEXT("二角取り"),
 						0);
 				}
 				InvalidateRect(hWnd,0,0);
@@ -431,7 +431,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 							MessageBox(
 								hWnd,
 								TEXT("完了。"),
-								TEXT("四川省"),0);
+								TEXT("二角取り"),0);
 						}
 						else if(b&&
 							!GetHint(&autoiti1,&autoiti2))
@@ -446,7 +446,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 							MessageBox(
 								hWnd,
 								TEXT("手詰まりです。"),
-								TEXT("四川省"),
+								TEXT("二角取り"),
 								0);
 						}
 					}
@@ -554,7 +554,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR pCmdLine, int 
 	RegisterClass(&wndclass);
 	hWnd=CreateWindow(
 		szClassName,
-		TEXT("四川省"),
+		TEXT("二角取り"),
 		WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU,CW_USEDEFAULT,
 		0,
 		WINDOW_WIDTH+GetSystemMetrics(SM_CXEDGE)+
