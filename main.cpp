@@ -1,3 +1,5 @@
+#define UNICODE
+
 #include <windows.h>
 #include <windowsx.h>
 #include "resource.h"
@@ -12,7 +14,7 @@
 #define ID_NEWGAME 1000
 #define ID_HINT 1001
 
-TCHAR szClassName[]=TEXT("Window");
+WCHAR szClassName[] = L"Shisensho";
 BYTE iti2pai[MAX_KOMASUU];
 BYTE pai2iti[(X_NUM-2)*(Y_NUM-2)];
 HWND hWnd;
@@ -229,6 +231,9 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 	static BYTE oldy;
 	static BYTE autoiti1,autoiti2;
 	static BYTE zansuu;
+	static WCHAR szComplete[256];
+	static WCHAR szAppName[256];
+	static WCHAR szGameOver[256];
 	switch(msg)
 	{
 	case WM_COMMAND:
@@ -264,11 +269,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 						0,
 						GetCurrentThreadId()
 						);
-					MessageBox(
-						hWnd,
-						TEXT("äÆóπÅB"),
-						TEXT("ìÒäpéÊÇË"),
-						0);
+					MessageBox(hWnd, szComplete, szAppName, 0);
 				}
 				else if(!GetHint(&autoiti1,&autoiti2))
 				{
@@ -281,8 +282,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 						);
 					MessageBox(
 						hWnd,
-						TEXT("éËãlÇ‹ÇËÇ≈Ç∑ÅB"),
-						TEXT("ìÒäpéÊÇË"),
+						szGameOver,
+						szAppName,
 						0);
 				}
 			}
@@ -332,8 +333,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 						);
 					MessageBox(
 						hWnd,
-						TEXT("éËãlÇ‹ÇËÇ≈Ç∑ÅB"),
-						TEXT("ìÒäpéÊÇË"),
+						szGameOver,
+						szAppName,
 						0);
 				}
 				InvalidateRect(hWnd,0,0);
@@ -430,8 +431,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 								GetCurrentThreadId());
 							MessageBox(
 								hWnd,
-								TEXT("äÆóπÅB"),
-								TEXT("ìÒäpéÊÇË"),0);
+								szComplete,
+								szAppName,0);
 						}
 						else if(b&&
 							!GetHint(&autoiti1,&autoiti2))
@@ -445,8 +446,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 								);
 							MessageBox(
 								hWnd,
-								TEXT("éËãlÇ‹ÇËÇ≈Ç∑ÅB"),
-								TEXT("ìÒäpéÊÇË"),
+								szGameOver,
+								szAppName,
 								0);
 						}
 					}
@@ -479,10 +480,14 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 		InvalidateRect(hWnd,0,0);
 		break;
 	case WM_CREATE:
-		srand(GetTickCount());
+		srand((unsigned int)GetTickCount64());
 		hBitmap=LoadBitmap(
 			GetModuleHandle(0),
 			MAKEINTRESOURCE(IDB_BITMAP1));
+		LoadString(GetModuleHandle(0), IDS_APPNAME, szAppName, _countof(szAppName));
+		LoadString(GetModuleHandle(0), IDS_COMPLETE, szComplete, _countof(szComplete));
+		LoadString(GetModuleHandle(0), IDS_GAMEOVER, szGameOver, _countof(szGameOver));
+		SetWindowText(hWnd, szAppName);
 		SNDMSG(hWnd,WM_COMMAND,ID_NEWGAME,0);
 		break;
 	case WM_ERASEBKGND:
@@ -536,7 +541,10 @@ LRESULT CALLBACK WndProc(HWND hWnd,
 	return 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR pCmdLine, int nCmdShow)
+int WINAPI wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR lpCmdLine,
+	_In_ int nShowCmd)
 {
 	MSG msg;
 	WNDCLASS wndclass={
@@ -554,7 +562,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR pCmdLine, int 
 	RegisterClass(&wndclass);
 	hWnd=CreateWindow(
 		szClassName,
-		TEXT("ìÒäpéÊÇË"),
+		0,
 		WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU,CW_USEDEFAULT,
 		0,
 		WINDOW_WIDTH+GetSystemMetrics(SM_CXEDGE)+
@@ -584,5 +592,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR pCmdLine, int 
 		}
 	}
 	DestroyAcceleratorTable(hAccel);
-	ExitProcess(msg.wParam);
+	ExitProcess((UINT)msg.wParam);
 }

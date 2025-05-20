@@ -6,3 +6,8 @@
 /installer
 /Release
 *.aps
+/Debug/Shisensho.tlog
+/Debug
+/Shisensho/x64/Release
+/Shisensho/x64/Debug
+/x64
