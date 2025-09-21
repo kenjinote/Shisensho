@@ -546,6 +546,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd)
 {
+	//SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_NEUTRAL));
 	MSG msg;
 	WNDCLASS wndclass={
 		0,
